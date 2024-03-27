@@ -12,9 +12,9 @@ class Gender(Enum):
 
 class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
-    gender = db.Column(db.Enum(Gender), default=Gender.other)
+    username = db.Column(db.String(50), nullable=False, unique=True)
+    email = db.Column(db.String(100), nullable=False,unique=True)
+    gender = db.Column(db.Enum(Gender), default=Gender.female)
     created_at=db.Column(db.TIMESTAMP(),default=db.func.now())
     
 
