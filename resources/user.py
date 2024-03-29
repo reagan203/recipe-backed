@@ -22,17 +22,17 @@ response_field = {
 
 class Signup(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('first_name', required=True, help="Firstname is required")
-    parser.add_argument('last_name', required=True, help="Last name is required")
-    parser.add_argument('phone', required=True, help="Phone number is required")
-    parser.add_argument('email', required=True, help="Email address is required")
-    parser.add_argument('password', required=True, help="Password is required")
+    parser.add_argument('first_name',type=str, required=True, help="Firstname is required")
+    parser.add_argument('last_name',type=str, required=True, help="Last name is required")
+    parser.add_argument('phone',type=str ,required=True, help="Phone number is required")
+    parser.add_argument('email',type=str, required=True, help="Email address is required")
+    parser.add_argument('password',type=str, required=True, help="Password is required")
 
     @marshal_with(response_field)
     def post(self):
         data = Signup.parser.parse_args()
 
-        # encrypt password
+        
         data['password'] = generate_password_hash(data['password'])
         # set default role
         data['role'] = 'member'
@@ -108,3 +108,16 @@ class RefreshAccess(Resource):
         access_token = create_access_token(identity=identity)
 
         return jsonify(access_token = access_token)
+    
+class AllUsers(Resource):
+    @marshal_with(user_fields)
+    def get (self,user_id=None):
+        if user_id:
+            user =UserModel.query.get(user_id)
+            if user:
+                return user
+            else:
+                return {"message:user not found"},404
+        else:
+            users=UserModel.query.all()
+            return users        

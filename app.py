@@ -7,10 +7,10 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 import os
 from datetime import timedelta
-from resources.user import Signup, Login, RefreshAccess
+from resources.user import Signup, Login, RefreshAccess,AllUsers
 from resources.recipe import CreateRecipe, UpdateRecipe,Recipe
-from resources.comment import CreateComment, UpdateComment,Comment
-from resources.rating import CreateRating, UpdateRating,Rating
+# from resources.comment import CreateComment, UpdateComment,Comment
+# from resources.rating import CreateRating, UpdateRating,Rating
 
 
 app = Flask(__name__)
@@ -18,7 +18,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] =( 'sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Setup the Flask-JWT-Extended extension
-app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY")  # Change this!
+app.config["JWT_SECRET_KEY"] = ("JWT_SECRET_KEY")  # Change this!
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=15)
 
 
@@ -63,12 +63,13 @@ api.add_resource(RefreshAccess, '/refresh-access')
 api.add_resource(Recipe, '/recipe','/recipe/<int:recipe_id>')
 api.add_resource(CreateRecipe, '/createrecipe')  
 api.add_resource(UpdateRecipe, '/updaterecipe','/updaterecipe/<int:recipe_id>')
-api.add_resource(Comment, '/comment')
-api.add_resource(CreateComment, '/createcomment')
-api.add_resource(UpdateComment, '/updatecomment','/updatecomment/<int:comment_id>')
-api.add_resource(Rating, '/rating','/rating/<int:rating_id>')
-api.add_resource(CreateRating, '/createrating')
-api.add_resource(UpdateRating, '/updaterating','/updaterating/<int:rating_id>')
+# api.add_resource(Comment, '/comment')
+# api.add_resource(CreateComment, '/createcomment')
+# api.add_resource(UpdateComment, '/updatecomment','/updatecomment/<int:comment_id>')
+# api.add_resource(Rating, '/rating','/rating/<int:rating_id>')
+# api.add_resource(CreateRating, '/createrating')
+# api.add_resource(UpdateRating, '/updaterating','/updaterating/<int:rating_id>')
+api.add_resource(AllUsers, '/users' ,'/users/<int:user_id>')
 
 
 

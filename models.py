@@ -7,11 +7,11 @@ class UserModel(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.Text, nullable=False)
-    last_name = db.Column(db.Text, nullable=False)
+    first_name = db.Column(db.String, nullable=False)
+    last_name = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=False, unique=True)
     email = db.Column(db.String, nullable=False, unique=True)
-    role = db.Column(db.Text, nullable=False)
+    role = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False)
     created_at = db.Column(db.TIMESTAMP, server_default=db.func.now())
     
@@ -26,31 +26,11 @@ class RecipeModel(db.Model):
     
     recipe_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text)
-    instructions = db.Column(db.Text)
-    prep_time = db.Column(db.Integer)
-    cook_time = db.Column(db.Integer)
-    total_time = db.Column(db.Integer)
-    servings = db.Column(db.Integer)
-    image_url = db.Column(db.String(255))  # Column for image URL or file path
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    created_at = db.Column(db.TIMESTAMP, server_default=db.func.now())
-    author = db.relationship('UserModel', backref=db.backref('recipes', lazy=True))
-
-
-
-class CommentModel(db.Model):
-    __tablename__ = 'comments'
+    description = db.Column(db.String ,nullable=False)
+    instructions = db.Column(db.String ,nullable=False)
+    prep_time = db.Column(db.Integer ,nullable=False)
+    cook_time = db.Column(db.Integer ,nullable=False)
+    servings = db.Column(db.String, nullable=False)
+    image_url = db.Column(db.String(255),nullable=False)  # Column for image URL or file path
     
-    comment_id = db.Column(db.Integer, primary_key=True)
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.TIMESTAMP, server_default=db.func.now())
-
-class RatingModel(db.Model):
-    __tablename__ = 'ratings'
     
-    rating_id = db.Column(db.Integer, primary_key=True)
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'), nullable=False)
-    rating = db.Column(db.Integer, nullable=False)
-    created_at = db.Column(db.TIMESTAMP, server_default=db.func.now())
